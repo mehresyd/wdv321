@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .studentInfo {
+            display: none;
+        }
+
+        .displayStudentButton {
+            display: block;
+            margin-top: 10px;
+        }
+
+    </style>
+    <script>
+
+        function pageSetup() {
+            document.querySelector("#getStudentsButton").onclick = function () {
+                
+                let xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        let studentList = JSON.parse(xmlhttp.responseText);
+                        let studentContainer = document.querySelector("#studentContainer");
+                        studentContainer.innerHTML = "";
+                        for (let i=0; i < studentList.length; i++) {
+                            let student = studentList[i];
+                            let studentButton = document.createElement("button");
+                            studentButton.classList.add("displayStudentButton");
+                            studentButton.textContent = "Display Student " + student.student_id;
+                            studentButton.onclick = function () {
+                                displayStudent(student);
+                            };
+
+                        studentContainer.appendChild(studentButton);
+                    }
+                }
+            };
+
+                xmlhttp.open("GET", "students.js", true);
+                xmlhttp.send();
+        };
+
+            function displayStudent(student) {
+                let studentInfo = document.querySelector(".studentInfo");
+                studentInfo.querySelector(".studentName").textContent = "Student name: " + student.student_first_name + " " + student.student_last_name;
+                studentInfo.querySelector(".studentID").textContent = "Student ID: " + student.student_id;
+                studentInfo.querySelector(".studentMajor").textContent = "Student Major: " + student.student_major;
+                studentInfo.querySelector(".studentCredits").textContent = "Student Credits: " + student.student_credits;
+                studentInfo.querySelector(".studentGpa").textContent = "Student GPA: " + student.student_gpa;
+                studentInfo.querySelector(".studentRegistrationDate").textContent = "Student Registration Date: " + student.student_registration_date;
+                studentInfo.style.display = "block";
+            }
+        }
+
+
+    </script>
+</head>
+
+<body onLoad="pageSetup()">
+    <h1>WDV321 Advanced JavaScript</h1>
+    <h2>AJAX Example - Student Object</h2>
+    <p>
+        <button id="getStudentsButton">Get Students</button>
+    </p>
+    <div id="studentContainer"></div>
+    <div class="studentInfo">
+        <p class="studentName">Student name: </p>
+        <p class="studentID">Student ID: </p>
+        <p class="studentMajor">Student Major: </p>
+        <p class="studentCredits">Student Credits: </p>
+        <p class="studentGpa">Student GPA: </p>
+        <p class="studentRegistrationDate">Student Registration Date: </p>
+    </div>
+</body>
+
+</html>

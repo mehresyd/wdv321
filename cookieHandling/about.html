@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta keywords="Savanna, coffee house, cafe, coffee, information, history">
+    <meta description="A website featuring information about savanna's coffee house.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Savanna's Coffee</title>
+    <script>
+
+        //JS data object 
+        document.addEventListener("DOMContentLoaded", function () {
+            let customerData = JSON.parse(localStorage.getItem('customerData'));
+
+            let customerName = document.querySelector('#name');
+            let customerPhoneNumber = document.querySelector('#phoneNumber');
+            let customerEmail = document.querySelector('#email');
+
+            customerName.textContent = customerData.customerName;
+            customerPhoneNumber.textContent = customerData.customerPhoneNumber;
+            customerEmail.textContent = customerData.customerEmail;
+        });
+        
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let customerData = JSON.parse(localStorage.getItem('customerData'));
+
+            customerData.customerName = 'Sarah Joe';
+            customerData.customerPhoneNumber = '515-111-1111';
+            customerData.customerEmail = 'sarahJoe@gmail.com';
+
+            localStorage.setItem('customerData', JSON.stringify(customerData));
+        });
+        console.log(localStorage);
+
+        //persistant cookie for home page visits
+        document.addEventListener('DOMContentLoaded', () => {
+            let count = 0;
+            if (document.cookie) {
+                let cookieArr = document.cookie.split(';');
+                for (let i = 0; i < cookieArr.length; i++) {
+                    let cookiePair = cookieArr[i].split('=');
+                    if (cookiePair[0].trim() === 'count') {
+                        count = parseInt(cookiePair[1]);
+                    }
+                }
+            }
+            document.querySelector('#count').textContent = count;
+            document.cookie = `count=${count}; path=/`;
+        });
+
+        //session cookie date/time user opened home page
+        document.addEventListener('DOMContentLoaded', function () {
+            let sessionTimeCookie = document.cookie.split('; ')
+                .find(cookie => cookie.startsWith('sessionTime='));
+            let sessionTime = sessionTimeCookie ? sessionTimeCookie.split('=')[1] : null;
+
+            let sessionTimeElement = document.querySelector('#sessionTime');
+            if (sessionTimeElement && sessionTime) {
+                let formattedTime = new Date(sessionTime).toLocaleString();
+                sessionTimeElement.textContent = sessionTime;
+            }
+
+        });
+
+        //secured persistent authentication cookie
+        document.addEventListener("DOMContentLoaded", function () {
+            let authCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('auth'));
+            if (authCookie) {
+                let expiration = new Date(Date.parse(authCookie.split('=')[1]));
+                document.querySelector("#expirationDate").innerHTML = "Authenticated Page until: " + expiration.toLocaleString();
+            } else {
+                document.querySelector("#expirationDate").innerHTML = "This is not an authenticated page.";
+            }
+        });
+
+        //destorying cookies to test application
+        document.addEventListener('DOMContentLoaded', () => {
+            let destroyCookiesBtn = document.querySelector('#destroy-cookies-btn');
+
+            destroyCookiesBtn.addEventListener('click', () => {
+                let cookies = document.cookie.split(';');
+
+                cookies.forEach(cookie => {
+                    let cookieName = cookie.split('=')[0];
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 2023 00:00:00 UTC; path=/;`;
+                });
+            });
+
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div id="container">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
+                <a class="navbar-brand" href="index.html">Savanna's</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                    <button id="destroy-cookies-btn">Clear cookies</button>
+                </div>
+            </nav>
+        </header>
+        <div class="top-b">
+            <img src="images/main-banner.jpg" height="270px" alt="banner image of food and savanna logo">
+        </div>
+        <div class="heading">
+            <h2>About Us</h2>
+            <p>We welcome you to Savanna's Coffee House.</p>
+            <p>Home page visits: <span id="count"></span></p>
+            <p>Accessed home page date & time: <span id="sessionTime"></span></p>
+            <p id=expirationDate></p>
+            <p>Customer Name: <span id="name"></span></p>
+            <p>Customer Phone Number: <span id="phoneNumber"></span></p>
+            <p>Customer Email: <span id="email"></span></p>
+        </div>
+        <main>
+            <div class="row no-gutters">
+                <div class="col-md-6">
+                    <div class="on-left">
+                        <p>Savanna's Coffee House was founded in 2006 by MSU graduate students Michel Bohmer and Sandy
+                            Thomas.
+                            Located in the heart of MSU's campus town, we strived to make Savanna's Coffee House a fun,
+                            funky,
+                            relaxing yet upbeat destination for all students and locals to enjoy! We serve only the best
+                            premium
+                            products from our fresh roasted coffee and espresso drinks, hot and cold brewed iced teas,
+                            grilled and
+                            cold served sandwiches, and homemade soups and bakery items made fresh everyday. We made it
+                            so there was
+                            a little something for everyone to enjoy.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="on-right">
+                        <p> We not only serve during the day but we also love to host many fun night events and
+                            perfomances. Stop by
+                            in the evening and enjoy some wine or beer and listen to some live entertainment in our
+                            theatre space
+                            with performances by many local artist and musicians. Have talent you want to show off?
+                            Contact us to
+                            book a function at our cafe. Both Sandy and Michel have always been passionate about coffee
+                            since their
+                            collage days and wanted to bring the same love of coffee to their coffee shop for other
+                            locals and
+                            college students to enjoy like Michel and Sandy do!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="content1">
+            <p>Since Michel and Sandy have always only wanted the best quality for their coffee, they soucre their own
+                ethical
+                coffee beans from around the world and roast them on site right to your coffee cup. Our finest coffee
+                beans come from places as far as Colombia, Guatemala, Costa Rica, and Jamaica. These countries are known
+                to have grown and source the best coffee beans around. Click here for more information on our ethically
+                sourced<span class="ethical"><a href="https://www.satellitecoffee.com/project/ethical-sourcing/"
+                        target="blank"><em> coffee beans.</em></a></span></p><br>
+
+            <p>We hope you enjoy your times spent here at Savanna's Coffee House. Everyday we strive to improve to be
+                the best coffee shop around for all of our beloved MSU students and locals. It is an honour to be able
+                to be apart of the same campus where Sandy and Michel found friendship and a love for MSU and coffee. We
+                have built a cafe we are proud of and are happy to serve all in our laid back beautiful coffee house.
+                Coffee is our life and we hope you feel the same at Savanna's.</p><br>
+            <p span class="fl">Cordially,</span></p>
+            <p>Savanna's owners and staff</p>
+        </div>
+        <div class="about-pic">
+            <img src="images/collegestudent.jpg" alt="college student drinking coffee">
+            <img src="images/iced-tea.jpg" alt="iced tea on a table">
+        </div>
+        <hr>
+        <div class="end">
+            <h3>Stop by Savanna's Coffee House Today and be one of the first</h3>
+            <h3>to hear about our special offers and events!</h3>
+            <a href="contact.html">Subscribe</a>
+            <div class="gotop">
+                <a href="#top">Go to Top</a>
+            </div>
+        </div>
+        <!--closing end section-->
+
+        <div class="lower-content">
+            <h2>Savanna's Coffee</h2>
+            <br>
+            <h5>702-971-1154 | 604 24th Street St.Paul, Minnesota</h5><br>
+            <div class="socials">
+                <a href="#"><img src="images/facebook.png" height="60px" alt="facebook logo link">
+                    <a href="#"><img src="images/instagram.png" height="60px" alt="instagram logo link">
+            </div>
+        </div>
+        <footer>
+            <p>Savanna's Coffee House | 2022</p>
+        </footer>
+    </div>
+    <!--closing container-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

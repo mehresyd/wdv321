@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>WDV321 Advanced Javascript - JSON</title>
+		<script>
+
+			document.addEventListener("DOMContentLoaded", function() {
+
+			function createStudentCard(student) {
+			  let studentCard = document.createElement('div');
+			  studentCard.className = 'studentCard';
+			  studentCard.style.cssText = 'box-sizing: border-box; background-color: lightblue; padding-left: 15px; padding-top: 17px; border: thin solid blue; box-shadow: 2px 2px 2px grey; width: 20%; flex-basis: 20%; height: 255px; display: inline-block; margin: 0px 10px 10px 0; overflow: hidden;';
+			  
+			  let studentId = document.createElement('h3');
+			  studentId.textContent = 'Student ID: ' + student.student_id;
+			  
+			  let studentGpa = document.createElement('p');
+			  studentGpa.className = 'gpa';
+			  studentGpa.textContent = 'Student GPA: ' + student.student_gpa;
+			  
+			  let studentCourses = document.createElement('p');
+			  studentCourses.textContent = 'Student Courses:';
+			  let coursesList = document.createElement('ul');
+			  student.student_courses.forEach(function (course) {
+				let courseItem = document.createElement('li');
+				courseItem.textContent = course;
+				coursesList.appendChild(courseItem);
+			  });
+			  studentCourses.appendChild(coursesList);
+			  
+			  studentCard.appendChild(studentId);
+			  studentCard.appendChild(studentGpa);
+			  studentCard.appendChild(studentCourses);
+			  
+			  return studentCard;
+			}
+			
+			let studentsJSON = localStorage.getItem('students');
+			let students = JSON.parse(studentsJSON);
+			let studentCards = document.createElement('div');
+			studentCards.id = 'studentCards';
+			studentCards.style.cssText = 'display: flex; flex-wrap: wrap;';
+			
+			students.forEach(function (student) {
+			  let studentCard = createStudentCard(student);
+			  studentCards.appendChild(studentCard);
+			});
+			
+			document.getElementById('students').appendChild(studentCards);
+		
+			});
+			
+		</script>
+			  
+
+	<!--
+    
+    Instructions:
+    	1. Incorporate the createJSON.html file into this page as an external file.
+        2. Access the JSON object in local storage and convert it into a javascript object.
+        3. Use the information in the object to complete a student card for EACH student object.
+        4. Account for the fact that there could be a random number of student objects. 
+        5. Use Jquery commands whenever possible.  
+-->
+
+	<style>
+		.studentCards {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.studentCard {
+			box-sizing: border-box;
+			background-color: lightblue;
+			padding-left: 15px;
+			padding-top: 17px;
+			border: thin solid blue;
+			box-shadow: 2px 2px 2px grey;
+			width: 20%;
+			flex-basis: 20%;
+			height: 255px;
+			display: inline-block;
+			margin: 0px 10px 10px 0;
+			overflow: hidden;
+
+		}
+
+		.studentCard h3, .studentCard p {
+			margin: 0px;
+			margin-bottom: 10px;
+			padding: 4px 0;
+		}
+
+		.studentCard ul {
+			margin-top: 0;
+			margin-bottom: 0;
+			padding-left: 40px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<a href="createJSON.html"></a>
+	<h1>WDV321 Advanced Javascript</h1>
+	<h2>Unit-8 JSON Objects</h2>
+	<h3>Creating and consuming a JSON object</h3>
+
+<div id="students"></div>
+
+<div class="studentCards"></div>
+
+</body>
+
+</html>

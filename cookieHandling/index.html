@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta keywords="Savanna, coffee house, cafe, coffee">
+    <meta description="A website featuring savanna's coffee house home page.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Savanna's Coffee</title>
+    <script>
+
+        //JS data object 
+         let customerData = {
+            customerName: "Mary Smith",
+            customerPhoneNumber: "515-876-7254",
+            customerEmail: "marySmith@gmail.com"
+        }
+        localStorage.setItem('customerData', JSON.stringify(customerData));
+        console.log(localStorage);
+
+        //persistant cookie for home page visits
+        let count = 0;
+        if (document.cookie) {
+            let cookieArr = document.cookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split('=');
+                if (cookiePair[0].trim() === 'count') {
+                    count = parseInt(cookiePair[1]);
+                }
+            }
+        }
+        count++;
+        document.cookie = `count=${count}; expires=Fri, 31 Dec 2023 00:00:00 UTC; path=/;`;
+
+        console.log(`Count value: ${count}`);
+
+        // Set session cookie for date/time user opened home page
+        if (!document.cookie.includes('sessionTime')) {
+            let currentTime = new Date();
+            let formattedTime = currentTime.toLocaleString();
+            document.cookie = `sessionTime=${formattedTime}; path=/`;
+        }
+
+        //secured persistent authentication cookie
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#authenticateButton").addEventListener("click", function () {
+                let now = new Date();
+                let expires = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // expires in 7 days
+                let auth = 'auth';
+                document.cookie = `auth=${expires.toUTCString()}; path=/; expires=${expires.toUTCString()}`;
+                console.log("Expiration date: " + expires);
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-light" style="background-color: white">
+                <a class="navbar-brand" href="index.html">Savanna's</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                    <button id="authenticateButton">Authenticate</button>
+                </div>
+            </nav>
+        </header>
+        <div class="main-image">
+            <div class="logo">
+                <span><img src="images/Untitled-1.png" height="250px"
+                        alt="home banner image of trees with savanna coffee logo">
+                    <h1 class="cen">Savanna's</h1>
+                    <h2 class="cen">Coffee House</h2>
+                </span>
+            </div>
+        </div>
+        <div class="box">
+            <h2>604 24th Street, St.Paul Minnesota</h2>
+            <p>702-971-1154</p>
+        </div>
+        <main>
+            <div class="row no-gutters">
+                <div class="col-md-6 no-gutters">
+                    <div class="leftside">
+                        <h2>Menu</h2>
+                        <p>At our coffee house you'll find that it is not just coffee we prepare. We have a wide
+                            array of
+                            cafe
+                            items to suit your needs at any time of day! We believe in both quality and quanity. We
+                            roast
+                            our
+                            own coffee in house with the best coffee beans around the world! Not a coffee lover?
+                            Thats okay,
+                            we
+                            have a variety of food and drink items to choose from that won't leave you feeling left
+                            out. Our
+                            menu has many soups, sandwhiches, salads as well as our bakery case that is full of
+                            fresh
+                            pastries
+                            and goodies made around the clock. The best teas, wine, beers and more are also
+                            avaliable
+                            morning
+                            and night!
+                        </p>
+                        <div class="links">
+                            <a href="menu.html">Menu</a>
+                        </div>
+                        <img src="images/cafe.jpg" alt="inside a cafe">
+                        <h2>About Us</h2>
+                        <p>Whether you're on your way to a class, dashing between extracurricular activities or
+                            looking to
+                            sit down and unwind day or night allow us to be your companion to seizing the day.</p>
+                        <div class="links">
+                            <a href="about.html">About</a>
+                        </div>
+                        <div class="custom">
+                            <img src="images/pexels-charlotte-may-5946981.jpg"
+                                alt="staff of cafe stirring coffee drink">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 no-gutters">
+                    <div class="rightside">
+                        <div class="special">
+                            <img src="images/redd-5HC8MhpE7dA-unsplash.jpg" alt="image of croissants">
+                        </div>
+                        <div class="right">
+                            <h2>Location</h2>
+                            <p>Offering both rejuvenation and a fun atmosphere, Savanna's Coffee House is the
+                                perfect
+                                destination
+                                right in the heart of your very own MSU collage town! We consider ourselves
+                                pretty
+                                urban, funky,
+                                and
+                                earthy. We provide fun get together events and have musical entertainment on
+                                weekends.
+                                On
+                                weekdays
+                                we are pretty calm and the perfect place to kick back and study alone or with
+                                friends!
+                                We are
+                                very
+                                easy to find and hope you get a chance to stop by soon to check out our new
+                                location!
+                            </p>
+                            <div class="links">
+                                <a href="contact.html">Learn More</a>
+                            </div>
+                            <img src="images/david-dvoracek-12z0NP3X3LI-unsplash.jpg"
+                                alt="a coffee drink with a croissant">
+                            <h2>Functions</h2>
+                            <p>Let Savanna's Coffee House take you from day to night with our fun evening and
+                                weekend events
+                                right
+                                in the heart of your own MSU collage campus! Join us for some upbeat fun by
+                                checking out our
+                                events
+                                list or book a function!
+                            </p>
+                            <div class="links">
+                                <a href="events.html">Functions</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <hr>
+        <div class="end">
+            <h3>Stop by Savanna's Coffee House Today and be one of the first
+                <h3>to hear about our special offers and events!</h3>
+                <a href="contact.html">Subscribe</a>
+                <div class="gotop">
+                    <a href="#top">Go to Top</a>
+                </div>
+        </div>
+        <!--closing end section-->
+        <div class="bottom">
+            <img src="images/foodbanner.jpg" height="300px" alt="banner with food images">
+        </div>
+
+        <div class="lower-content">
+            <h2>Savanna's Coffee</h2>
+            <br>
+            <h5>702-971-1154 | 604 24th Street St.Paul, Minnesota</h5><br>
+            <div class="socials">
+                <a href="#"><img src="images/facebook.png" height="60px" alt="facebook logo link">
+                    <a href="#"><img src="images/instagram.png" height="60px" alt="instagram logo link">
+            </div>
+        </div>
+        <footer>
+            <p>Savanna's Coffee House | 2022</p>
+        </footer>
+    </div>
+    <!--closing all container-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

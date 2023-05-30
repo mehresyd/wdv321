@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>WDV321 Advanced Javascript - JSON</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous">
+		</script>
+	<script>
+
+		function pageLoad() {
+			let studentsJSON = localStorage.getItem('students');
+			let students = JSON.parse(studentsJSON);
+
+			let studentCardTemplate = document.querySelector('.studentCardTemplate');
+
+			for (let i = 0; i < students.length; i++) {
+				let studentCard = studentCardTemplate.cloneNode(true);
+				let studentId = studentCard.querySelector('h3');
+				let studentGPA = studentCard.querySelector('p');
+				let coursesList = studentCard.querySelector('.course-list');
+
+				studentId.textContent = 'Student ID: ' + students[i].student_id;
+				studentGPA.textContent = 'Student GPA: ' + students[i].student_gpa;
+				coursesList.innerHTML = '';
+				for (let x = 0; x < students[i].student_courses.length; x++) {
+					let course = document.createElement('li');
+					course.textContent = students[i].student_courses[x];
+					coursesList.appendChild(course);
+				}
+
+				document.querySelector('.studentCards').appendChild(studentCard);
+			}
+
+			studentCardTemplate.remove();
+
+		}
+	</script>
+
+
+	<!--
+    Instructions:
+    	1. Incorporate the createJSON.html file into this page.
+        2. Access the JSON object in local storage and convert it into a Javascript object.
+        3. Use the information in the object to complete the student card.   
+-->
+
+	<style>
+		.studentCards {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.studentCardTemplate {
+			box-sizing: border-box;
+			background-color: lightblue;
+			padding-left: 15px;
+			padding-top: 3px;
+			border: thin solid blue;
+			box-shadow: 2px 2px 2px grey;
+			width: 20%;
+			height: auto;
+			flex-basis: 20%;
+			margin: 0 10px 10px 0;
+		}
+
+		.studentCard h3 {
+			margin: 0px;
+		}
+	</style>
+
+</head>
+
+<body onload="pageLoad()">
+	<a href="createJSON.html"></a>
+	<h1>WDV321 Advanced Javascript</h1>
+	<h2>Unit-8 JSON Objects</h2>
+	<h3>Creating and consuming a JSON object</h3>
+
+	<div class="studentCards">
+		<div class="studentCardTemplate">
+			<h3>Student ID:</h3>
+			<p>Student GPA:</p>
+			<p>Student Courses:
+			<ul class="course-list">
+				<!-- display the courses as list items -->
+			</ul>
+			</p>
+
+		</div>
+	</div>
+
+</body>
+
+</html>
